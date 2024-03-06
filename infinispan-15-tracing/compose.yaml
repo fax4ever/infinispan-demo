@@ -1,0 +1,8 @@
+services:
+  gallery:
+    build: 
+      context: ./infinispan-client
+      dockerfile: ./src/main/docker/Dockerfile.jvm
+    image: docker.io/fax4ever/infinispan-client:1.0.0-SNAPSHOT
+    ports:
+      - "8080:8080"

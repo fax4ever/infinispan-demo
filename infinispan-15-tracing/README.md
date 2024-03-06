@@ -6,10 +6,6 @@
 helm repo add openshift https://charts.openshift.io/
 ```
 
-```
-helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
-```
-
 ## Kubernetes: Deploy
 
 [./]
@@ -42,12 +38,33 @@ PORT=$(kubectl get service infinispan -o jsonpath="{.spec.ports[0].port}")
 echo $IP:$PORT
 ```
 
-Use `$IP:$PORT` in place of `172.18.255.201:11222`
+Use `$IP:$PORT` in place of `172.18.255.200:11222`
 ``` shell
-http://172.18.255.201:11222
+http://172.18.255.200:11222
 ```
 * Username: admin
 * Password: password
+
+### Jaeger Cluster
+
+``` shell
+kubectl apply -f jaeger.yaml
+```
+
+``` shell
+kubectl get pods -w
+```
+
+``` shell
+IP=$(kubectl get service jaeger-query -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+PORT=$(kubectl get service jaeger-query -o jsonpath="{.spec.ports[0].port}")
+echo $IP:$PORT
+```
+
+Use `$IP:$PORT` in place of `172.18.255.201:16686`
+``` shell
+http://172.18.255.201:16686
+```
 
 ### Infinispan Quarkus Client
 
@@ -73,9 +90,9 @@ PORT=$(kubectl get service infinispan-client -o jsonpath="{.spec.ports[0].port}"
 echo $IP:$PORT
 ```
 
-Use `$IP:$PORT` in place of `172.18.255.203:8080`:
+Use `$IP:$PORT` in place of `172.18.255.202:8080`:
 ``` web
-http://172.18.255.201:8080/image/cache
+http://172.18.255.202:8080/image/cacheimage/cache
 ```
 
 ```
