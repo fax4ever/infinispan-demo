@@ -4,8 +4,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import org.infinispan.client.hotrod.RemoteCache;
-import org.infinispan.client.hotrod.Search;
 import org.infinispan.query.dsl.Query;
 import org.infinispan.query.dsl.QueryFactory;
 import org.jboss.resteasy.reactive.RestResponse;
@@ -13,7 +11,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fax.play.model.Image;
-import io.quarkus.infinispan.client.Remote;
+import fax.play.model.ImageService;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -29,8 +27,7 @@ import jakarta.ws.rs.core.MediaType;
 public class ImageResource {
 
    @Inject
-   @Remote("images")
-   RemoteCache<String, Image> cache;
+   ImageService cache;
 
    @Inject
    ObjectMapper objectMapper;
@@ -55,7 +52,7 @@ public class ImageResource {
    @Path("/user/{user}")
    public List<Image> imagesByUser(@PathParam("user") String user, @QueryParam("offset") Integer offset,
                                    @QueryParam("limit") Integer limit) {
-      QueryFactory queryFactory = Search.getQueryFactory(cache);
+      QueryFactory queryFactory = cache.queryFactory();
       Query<Image> query = queryFactory.create("from fax.play.image where username = :user order by moment desc");
       query.setParameter("user", user);
       if (offset != null) {
@@ -71,7 +68,7 @@ public class ImageResource {
    @Path("/caption/{caption}")
    public List<Image> imagesByCaption(@PathParam("caption") String caption, @QueryParam("offset") Integer offset,
                                       @QueryParam("limit") Integer limit) {
-      QueryFactory queryFactory = Search.getQueryFactory(cache);
+      QueryFactory queryFactory = cache.queryFactory();
       Query<Image> query = queryFactory.create("from fax.play.image where caption : :caption order by moment desc");
       query.setParameter("caption", caption);
       if (offset != null) {
@@ -90,7 +87,7 @@ public class ImageResource {
          throws ParseException {
       Date fromDate = objectMapper.getDateFormat().parse(from);
       Date toDate = objectMapper.getDateFormat().parse(to);
-      QueryFactory queryFactory = Search.getQueryFactory(cache);
+      QueryFactory queryFactory = cache.queryFactory();
       Query<Image> query = queryFactory.create("from fax.play.image where moment between :from and :to order by moment desc");
       query.setParameter("from", fromDate);
       query.setParameter("to", toDate);

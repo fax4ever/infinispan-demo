@@ -64,5 +64,6 @@ public class Image {
          schemaFilePath = "proto",
          schemaFileName = "image-schema.proto")
    interface ImageSchema extends GeneratedSchema {
+      ImageSchema INSTANCE = new ImageSchemaImpl();
    }
 }
