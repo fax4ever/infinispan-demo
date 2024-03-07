@@ -1,4 +1,4 @@
-package fax.play;
+package fax.play.model;
 
 import java.util.Date;
 
