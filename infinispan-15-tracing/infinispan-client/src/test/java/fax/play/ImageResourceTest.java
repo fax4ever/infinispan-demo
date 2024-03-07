@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import fax.play.model.Image;
-import fax.play.model.ImageService;
 import fax.play.rest.NewImage;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -24,7 +23,7 @@ import jakarta.inject.Inject;
 class ImageResourceTest {
 
    @Inject
-   ImageService cache;
+   RemoteCache<String, Image> cache;
 
    @BeforeAll
    void beforeAll() {

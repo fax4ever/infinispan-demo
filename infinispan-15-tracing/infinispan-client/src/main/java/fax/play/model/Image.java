@@ -29,24 +29,24 @@ public class Image {
    }
 
    @Basic
-   @ProtoField(value = 1, required = true)
+   @ProtoField(value = 1)
    public String getUsername() {
       return username;
    }
 
-   @ProtoField(value = 2, required = true)
+   @ProtoField(value = 2)
    public String getFilename() {
       return filename;
    }
 
    @Text
-   @ProtoField(value = 3, required = true)
+   @ProtoField(value = 3)
    public String getCaption() {
       return caption;
    }
 
    @Basic
-   @ProtoField(value = 4, required = true)
+   @ProtoField(value = 4)
    public Date getMoment() {
       return moment;
    }
@@ -63,7 +63,7 @@ public class Image {
          schemaPackageName = "fax.play",
          schemaFilePath = "proto",
          schemaFileName = "image-schema.proto")
-   interface ImageSchema extends GeneratedSchema {
+   public interface ImageSchema extends GeneratedSchema {
       ImageSchema INSTANCE = new ImageSchemaImpl();
    }
 }
