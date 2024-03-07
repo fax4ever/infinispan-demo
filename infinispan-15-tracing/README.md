@@ -9,33 +9,49 @@ helm repo add openshift https://charts.openshift.io/
 ## Kubernetes: Deploy
 
 ``` shell
-kubectl config set-context --current --namespace=infinspan-15-tracing
+kubectl config set-context --current --namespace=infinispan-15-tracing
 ```
 
 ``` shell
-kubectl delete namespace infinspan-15-tracing
+kubectl delete namespace infinispan-15-tracing
 ```
 
 ``` shell
-kubectl create namespace infinspan-15-tracing
+kubectl create namespace infinispan-15-tracing
 ```
 
 ### Infinispan Cluster
 
 ``` shell
-helm install -f infinispan.yaml -n infinspan-15-tracing infinispan openshift/infinispan-infinispan --version 0.3.2
+helm install -n infinispan-15-tracing -f infinispan.yaml infinispan openshift/infinispan-infinispan --version 0.3.2
 ```
 
 ### Jaeger Service
 
 ``` shell
-kubectl apply -f jaeger.yaml
+kubectl apply -n infinispan-15-tracing -f jaeger.yaml
 ```
 
 ### Infinispan Quarkus Client
 
 ``` shell
-kubectl apply -f kubernetes.yaml
+kubectl apply -n infinispan-15-tracing -f kubernetes.yaml
+```
+
+``` shell
+kubectl wait pod --all --for=condition=Ready --namespace=${ns}
+```
+
+## Docker: Build & Push
+
+## Quarkus client: Develop and Package
+
+``` shell
+mvn -f ./infinispan-client/pom.xml clean compile quarkus:dev
+```
+
+``` shell
+mvn -f ./infinispan-client/pom.xml clean package
 ```
 
 ## Docker: Build and Publish
@@ -46,14 +62,4 @@ docker-compose build
 
 ``` shell
 docker-compose push
-```
-
-## Quarkus client: Develop and Package
-
-``` shell
-mvn -f ./infinispan-client/pom.xml clean compile quarkus:dev
-```
-
-``` shell
-mvn -f ./infinispan-client/pom.xml clean package
 ```

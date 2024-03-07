@@ -1,5 +1,5 @@
 services:
-  gallery:
+  infinispan-client:
     build: 
       context: ./infinispan-client
       dockerfile: ./src/main/docker/Dockerfile.jvm

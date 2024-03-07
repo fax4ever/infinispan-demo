@@ -8,7 +8,6 @@ metadata:
     app.kubernetes.io/name: jaeger
     app.kubernetes.io/version: 1.53.0
   name: jaeger-agent
-  namespace: infinspan-15-tracing
 spec:
   ports:
     - name: zk-compact-trft
@@ -42,7 +41,6 @@ metadata:
     app.kubernetes.io/name: jaeger
     app.kubernetes.io/version: 1.53.0
   name: jaeger-collector
-  namespace: infinspan-15-tracing
 spec:
   ports:
     - appProtocol: http
@@ -89,7 +87,6 @@ metadata:
     app.kubernetes.io/name: jaeger
     app.kubernetes.io/version: 1.53.0
   name: jaeger-query
-  namespace: infinspan-15-tracing
 spec:
   ports:
     - name: http-query
