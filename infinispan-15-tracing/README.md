@@ -20,16 +20,16 @@ kubectl delete namespace infinispan-15-tracing
 kubectl create namespace infinispan-15-tracing
 ```
 
-### Infinispan Cluster
-
-``` shell
-helm install -n infinispan-15-tracing -f infinispan.yaml infinispan openshift/infinispan-infinispan --version 0.3.2
-```
-
 ### Jaeger Service
 
 ``` shell
 kubectl apply -n infinispan-15-tracing -f jaeger.yaml
+```
+
+### Infinispan Cluster
+
+``` shell
+helm install -n infinispan-15-tracing -f infinispan.yaml infinispan openshift/infinispan-infinispan --version 0.3.2
 ```
 
 ### Infinispan Quarkus Client

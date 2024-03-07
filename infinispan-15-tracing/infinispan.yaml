@@ -1,15 +1,20 @@
 #Build configuration
 images:
-  #server: quay.io/infinispan/server:15.0.0.CR1
+  server: quay.io/infinispan/server:15.0.0.CR1
   initContainer: registry.access.redhat.com/ubi8-micro
 #Deployment configuration
 deploy:
   #Add a user with full security authorization.
   security:
-    batch: "user create admin -p password"
+    batch: "user create admin -p password -g admin"
   #Create a cluster with two pods.
   replicas: 2
   #Specify the internal Kubernetes cluster domain.
   clusterDomain: cluster.local
   expose:
     type: LoadBalancer
+  infinispan:
+    cacheContainer:
+      tracing:
+        collector-endpoint: "http://jaeger-collector.infinispan-15-tracing.svc.cluster.local:4318"
+        security: true

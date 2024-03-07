@@ -14,3 +14,9 @@ replicatedCache:
     startupMode: "NONE"
     indexedEntities: 
       - "fax.play.image"
+  tracing:
+    enabled: true
+    categories:
+      - "container"
+      - "cluster"
+      - "persistence"
