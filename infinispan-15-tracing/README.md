@@ -32,6 +32,16 @@ kubectl apply -n infinispan-15-tracing -f jaeger.yaml
 helm install -n infinispan-15-tracing -f infinispan.yaml infinispan openshift/infinispan-infinispan --version 0.3.2
 ```
 
+``` shell
+kubectl get pods -w
+```
+
+Optionally, update the helming:
+
+``` shell
+helm upgrade --reuse-values --set deploy.replicas=1 infinispan openshift/infinispan-infinispan --version 0.3.2
+```
+
 ### Infinispan Quarkus Client
 
 ``` shell
@@ -62,4 +72,26 @@ docker-compose build
 
 ``` shell
 docker-compose push
+```
+
+## Extra
+
+Run Jaeger container
+
+``` shell
+docker run -i --rm --name jaeger \
+  -e COLLECTOR_ZIPKIN_HOST_PORT=:9411 \
+  -e COLLECTOR_OTLP_ENABLED=true \
+  -p 5775:5775/udp \
+  -p 6831:6831/udp \
+  -p 6832:6832/udp \
+  -p 5778:5778 \
+  -p 16686:16686 \
+  -p 14250:14250 \
+  -p 14268:14268 \
+  -p 14269:14269 \
+  -p 9411:9411 \
+  -p 4317:4317 \
+  -p 4318:4318 \
+  jaegertracing/all-in-one:1.53
 ```

@@ -20,3 +20,11 @@ replicatedCache:
       - "container"
       - "cluster"
       - "persistence"
+  persistence:
+    passivation: "false"
+    fileStore:
+      shared: "false"
+      data:
+        path: "data"
+      index:
+        path: "index"
