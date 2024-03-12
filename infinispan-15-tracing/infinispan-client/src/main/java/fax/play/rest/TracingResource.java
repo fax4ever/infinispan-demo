@@ -1,7 +1,7 @@
 package fax.play.rest;
 
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.infinispan.client.hotrod.RemoteCache;
@@ -32,7 +32,7 @@ public class TracingResource {
 
    @PostConstruct
    public void init() {
-      enabledCategories = new HashSet<>(Arrays.asList(CONTAINER, CLUSTER, PERSISTENCE));
+      enabledCategories = new HashSet<>(List.of(CONTAINER));
    }
 
    @POST

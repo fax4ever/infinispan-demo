@@ -18,8 +18,6 @@ replicatedCache:
     enabled: true
     categories:
       - "container"
-      - "cluster"
-      - "persistence"
   persistence:
     passivation: "false"
     fileStore:

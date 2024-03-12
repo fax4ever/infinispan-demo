@@ -36,12 +36,6 @@ helm install -n infinispan-15-tracing -f infinispan.yaml infinispan openshift/in
 kubectl get pods -w
 ```
 
-Optionally, update the helming:
-
-``` shell
-helm upgrade --reuse-values --set deploy.replicas=1 infinispan openshift/infinispan-infinispan --version 0.3.2
-```
-
 ### Infinispan Quarkus Client
 
 ``` shell
@@ -54,7 +48,7 @@ kubectl wait pod --all --for=condition=Ready --namespace=${ns}
 
 ## Docker: Build & Push
 
-## Quarkus client: Develop and Package
+### Quarkus client: Develop and Package
 
 ``` shell
 mvn -f ./infinispan-client/pom.xml clean compile quarkus:dev
@@ -64,7 +58,7 @@ mvn -f ./infinispan-client/pom.xml clean compile quarkus:dev
 mvn -f ./infinispan-client/pom.xml clean package
 ```
 
-## Docker: Build and Publish
+### Docker: Build and Publish
 
 ``` shell
 docker-compose build
@@ -74,7 +68,7 @@ docker-compose build
 docker-compose push
 ```
 
-## Extra
+### Extra
 
 Run Jaeger container
 
@@ -94,4 +88,54 @@ docker run -i --rm --name jaeger \
   -p 4317:4317 \
   -p 4318:4318 \
   jaegertracing/all-in-one:1.53
+```
+
+## Demo
+
+1. Add an image. Spans: client, container.
+
+```
+http POST http://localhost:8080/image <<<'{"user":"fabio", "file":"cat1.jpg", "caption":"a cat in the middle of the sky"}'
+```
+
+2. Add persistence tracing
+
+```
+http POST http://localhost:8080/tracing/persistence
+```
+
+3. Add a second image. Spans: client, container, persistence.
+
+```
+http POST http://localhost:8080/image <<<'{"user":"fabio", "file":"cat2.jpg", "caption":"a cat in the middle of the street"}'
+```
+
+4. Increase the cluster
+
+``` shell
+helm upgrade --reuse-values --set deploy.replicas=2 infinispan openshift/infinispan-infinispan --version 0.3.2
+```
+
+5. Enable cluster tracing 
+
+```
+http POST http://localhost:8080/tracing/cluster
+```
+
+6. Add a third image. Spans: client, container, cluster.
+
+```
+http POST http://localhost:8080/image <<<'{"user":"fabio", "file":"cat3.jpg", "caption":"a cat in the middle of the blue"}'
+```
+
+7. Disable tracing 
+
+```
+http DELETE http://localhost:8080/tracing
+```
+
+7. Add a fourth image. Spans: none
+
+```
+http POST http://localhost:8080/image <<<'{"user":"fabio", "file":"cat4.jpg", "caption":"a cat in the middle of the grass"}'
 ```
