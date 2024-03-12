@@ -70,6 +70,11 @@ public class Config implements Closeable {
       return cache;
    }
 
+   @Produces
+   public RemoteCacheManager cacheManager() {
+      return cacheManager;
+   }
+
    @Override
    public void close() {
       cacheManager.close();
