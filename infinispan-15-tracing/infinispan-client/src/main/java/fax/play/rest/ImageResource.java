@@ -14,6 +14,7 @@ import fax.play.model.Image;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -30,6 +31,12 @@ public class ImageResource {
 
    @Inject
    ObjectMapper objectMapper;
+
+   @DELETE
+   public RestResponse<Void> deleteAll() {
+      cache.clear();
+      return RestResponse.accepted();
+   }
 
    @POST
    @Consumes(MediaType.APPLICATION_JSON)
