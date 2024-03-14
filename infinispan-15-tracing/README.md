@@ -95,19 +95,19 @@ docker run -i --rm --name jaeger \
 1. Add an image. Spans: client, container.
 
 ```
-http POST http://localhost:8080/image <<<'{"user":"fabio", "file":"cat1.jpg", "caption":"a cat in the middle of the sky"}'
+http POST http://172.18.255.202:8080/image <<<'{"user":"fabio", "file":"cat1.jpg", "caption":"a cat in the middle of the sky"}'
 ```
 
 2. Add persistence tracing
 
 ```
-http POST http://localhost:8080/tracing/persistence
+http POST http://172.18.255.202:8080/tracing/persistence
 ```
 
 3. Add a second image. Spans: client, container, persistence.
 
 ```
-http POST http://localhost:8080/image <<<'{"user":"fabio", "file":"cat2.jpg", "caption":"a cat in the middle of the street"}'
+http POST http://172.18.255.202:8080/image <<<'{"user":"fabio", "file":"cat2.jpg", "caption":"a cat in the middle of the street"}'
 ```
 
 4. Increase the cluster
@@ -119,23 +119,23 @@ helm upgrade --reuse-values --set deploy.replicas=2 infinispan openshift/infinis
 5. Enable cluster tracing 
 
 ```
-http POST http://localhost:8080/tracing/cluster
+http POST http://172.18.255.202:8080/tracing/cluster
 ```
 
 6. Add a third image. Spans: client, container, cluster.
 
 ```
-http POST http://localhost:8080/image <<<'{"user":"fabio", "file":"cat3.jpg", "caption":"a cat in the middle of the blue"}'
+http POST http://172.18.255.202:8080/image <<<'{"user":"fabio", "file":"cat3.jpg", "caption":"a cat in the middle of the blue"}'
 ```
 
 7. Disable tracing 
 
 ```
-http DELETE http://localhost:8080/tracing
+http DELETE http://172.18.255.202:8080/tracing
 ```
 
 7. Add a fourth image. Spans: none
 
 ```
-http POST http://localhost:8080/image <<<'{"user":"fabio", "file":"cat4.jpg", "caption":"a cat in the middle of the grass"}'
+http POST http://172.18.255.202:8080/image <<<'{"user":"fabio", "file":"cat4.jpg", "caption":"a cat in the middle of the grass"}'
 ```

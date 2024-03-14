@@ -1,7 +1,6 @@
 package fax.play.rest;
 
-import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.infinispan.client.hotrod.RemoteCache;
@@ -22,6 +21,7 @@ public class TracingResource {
    private static final String CONTAINER = "container";
    private static final String CLUSTER = "cluster";
    private static final String PERSISTENCE = "persistence";
+   private static final String X_SITE = "x-site";
 
    @Inject
    @Remote("images")
@@ -34,7 +34,9 @@ public class TracingResource {
 
    @PostConstruct
    public void init() {
-      enabledCategories = new HashSet<>(List.of(CONTAINER));
+      enabledCategories = new LinkedHashSet<>();
+      enabledCategories.add(CONTAINER);
+      enabledCategories.add(X_SITE);
    }
 
    @POST
@@ -69,6 +71,12 @@ public class TracingResource {
       return enable(PERSISTENCE);
    }
 
+   @POST
+   @Path(X_SITE)
+   public String xSite() {
+      return enable(X_SITE);
+   }
+
    @DELETE
    @Path(CONTAINER)
    public String containerOff() {
@@ -85,6 +93,12 @@ public class TracingResource {
    @Path(PERSISTENCE)
    public String persistenceOff() {
       return disable(PERSISTENCE);
+   }
+
+   @DELETE
+   @Path(X_SITE)
+   public String xSiteOff() {
+      return disable(X_SITE);
    }
 
    private String enable(String category) {
