@@ -9,6 +9,7 @@ import org.infinispan.client.hotrod.RemoteCacheManager;
 import org.infinispan.commons.api.CacheContainerAdmin;
 
 import fax.play.model.Image;
+import io.quarkus.infinispan.client.Remote;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
@@ -23,6 +24,7 @@ public class TracingResource {
    private static final String PERSISTENCE = "persistence";
 
    @Inject
+   @Remote("images")
    RemoteCache<String, Image> cache;
 
    @Inject

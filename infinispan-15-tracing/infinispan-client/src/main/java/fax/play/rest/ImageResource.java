@@ -11,6 +11,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fax.play.model.Image;
+import io.quarkus.infinispan.client.Remote;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -27,6 +28,7 @@ import jakarta.ws.rs.core.MediaType;
 public class ImageResource {
 
    @Inject
+   @Remote("images")
    RemoteCache<String, Image> cache;
 
    @Inject
