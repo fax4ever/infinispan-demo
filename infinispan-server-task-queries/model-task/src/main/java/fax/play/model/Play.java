@@ -1,6 +1,7 @@
 package fax.play.model;
 
 import org.infinispan.api.annotations.indexing.Basic;
+import org.infinispan.api.annotations.indexing.Indexed;
 import org.infinispan.api.annotations.indexing.Keyword;
 import org.infinispan.api.annotations.indexing.Text;
 import org.infinispan.protostream.GeneratedSchema;
@@ -8,6 +9,7 @@ import org.infinispan.protostream.annotations.ProtoFactory;
 import org.infinispan.protostream.annotations.ProtoField;
 import org.infinispan.protostream.annotations.ProtoSchema;
 
+@Indexed
 public class Play {
 
    private final String name;

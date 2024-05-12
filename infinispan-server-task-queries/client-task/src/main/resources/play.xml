@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
 <distributed-cache name="play" owners="2" mode="SYNC" statistics="true">
     <encoding media-type="application/x-java-object"/>
+    <indexing enabled="true" storage="local-heap" startup-mode="AUTO" indexing-mode="AUTO">
+        <indexed-entities>
+            <indexed-entity>fax.play.model.Play</indexed-entity>
+        </indexed-entities>
+    </indexing>
 </distributed-cache>
