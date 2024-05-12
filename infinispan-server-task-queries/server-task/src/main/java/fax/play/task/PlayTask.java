@@ -1,11 +1,9 @@
 package fax.play.task;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.List;
 
 import org.infinispan.Cache;
 import org.infinispan.commons.api.query.Query;
-import org.infinispan.commons.api.query.QueryResult;
 import org.infinispan.tasks.ServerTask;
 import org.infinispan.tasks.TaskContext;
 import org.infinispan.tasks.TaskExecutionMode;
@@ -13,13 +11,13 @@ import org.infinispan.tasks.TaskInstantiationMode;
 
 import fax.play.model.Play;
 
-public class PlayTask implements ServerTask<String> {
+public class PlayTask implements ServerTask<Integer> {
 
    private static final ThreadLocal<TaskContext> taskContext = new ThreadLocal<>();
 
    @Override
    public String getName() {
-      return "hello-task";
+      return "play-task";
    }
 
    @Override
@@ -38,12 +36,16 @@ public class PlayTask implements ServerTask<String> {
    }
 
    @Override
-   public String call() throws Exception {
+   public Integer call() {
       TaskContext ctx = taskContext.get();
-      Cache<?, ?> cache = ctx.getCache().orElseThrow();
+      Cache<Integer, Play> cache = (Cache<Integer, Play>) ctx.getCache().orElseThrow();
+      cache.put(2, new Play("Chess", "Chess is an abstract strategy game that involves no hidden information on the board.", 9));
       Query<Play> query = cache.query("from fax.play.model.Play where description : 'board' order by name");
-      QueryResult<Play> result = query.execute();
-      return result.count().value() + "";
+      List<Play> list = query.list();
+      if (!list.isEmpty()) {
+         Play play = list.getFirst();
+         cache.put(3, play);
+      }
+      return list.size();
    }
-
 }

@@ -1,7 +1,6 @@
 package fax.play.client;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
 
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
@@ -16,19 +15,18 @@ public class CacheService {
    @Autowired
    private RemoteCacheManager cacheManager;
 
-   public Play interactWithTheServer() {
-      RemoteCache<Integer, Play> cache = cacheManager.getCache(InfinispanConfiguration.CACHE_NAME);
+   public Integer interactWithTheServer() {
+      RemoteCache<Integer, Play> cache = getCache();
       cache.clear();
 
       Play monopoly = new Play("Monopoly", "Monopoly is a multiplayer economics-themed board game.", 7);
       cache.put(1, monopoly);
 
-      Map<String, String> parameters = new HashMap<>();
-      parameters.put("name", "developer");
-
       // Run the server task.
-      String greet = cache.execute("hello-task", parameters);
+      return cache.execute("play-task", Collections.emptyMap());
+   }
 
-      return cache.get(1);
+   public RemoteCache<Integer, Play> getCache() {
+      return cacheManager.getCache(InfinispanConfiguration.CACHE_NAME);
    }
 }
