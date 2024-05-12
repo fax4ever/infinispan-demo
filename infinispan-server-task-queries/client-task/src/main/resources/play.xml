@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<distributed-cache name="play" owners="2" mode="SYNC" statistics="true">
+    <encoding media-type="application/x-java-object"/>
+</distributed-cache>
