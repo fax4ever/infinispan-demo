@@ -86,3 +86,22 @@ On project directory run:
 mvn clean verify -pl client-task
 ```
 
+## Use index embedded with a protostream encoded cache
+
+Working on the Infinispan server compiled from [the PR](https://github.com/infinispan/infinispan/pull/12377), 
+it is possible to switch to the following cache configuration: 
+
+```xml
+<?xml version="1.0"?>
+<distributed-cache name="play" owners="2" mode="SYNC" statistics="true">
+    <encoding media-type="application/x-protostream"/>
+    <indexing enabled="true" storage="local-heap" use-java-embedded-entities="true">
+        <indexed-entities>
+            <indexed-entity>fax.play.model.Play</indexed-entity>
+        </indexed-entities>
+    </indexing>
+</distributed-cache>
+```
+
+I tested it using this demo, only changing the `[play.xml](client-task%2Fsrc%2Fmain%2Fresources%2Fplay.xml)`,
+using an Infinispan server that contains the patch `ISPN-16069 Allow the indexes to start with embedded setup`.
