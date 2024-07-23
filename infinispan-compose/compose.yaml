@@ -1,0 +1,8 @@
+services:
+  pring-client:
+    build: 
+      context: ./spring-client
+      dockerfile: ./src/main/docker/Dockerfile
+    image: docker.io/fax4ever/spring-client:1.0.0-SNAPSHOT
+    ports:
+      - "8080:8080"
