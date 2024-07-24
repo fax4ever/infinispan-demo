@@ -1,3 +1,5 @@
+version: '2.29'
+
 services:
   spring-client:
     build: 
@@ -6,6 +8,9 @@ services:
     image: docker.io/fax4ever/spring-client:1.0.0-SNAPSHOT
     ports:
       - "8080:8080"
+    depends_on:
+      infinispan:
+        condition: service_healthy
   infinispan:
     image: infinispan/server:15.0.5.Final
     hostname: my-infinispan
@@ -14,3 +19,8 @@ services:
     environment:
       - USER=xxxxxx
       - PASS=yyyyyy
+    healthcheck:
+      test: curl --fail http://my-infinispan:11222/rest/v2/container/health/status || exit 1
+      interval: 1s
+      timeout: 10s
+      retries: 5
