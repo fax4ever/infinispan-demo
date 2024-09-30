@@ -29,7 +29,7 @@ kubectl apply -n infinispan-15-tracing -f jaeger.yaml
 ### Infinispan Cluster
 
 ``` shell
-helm install -n infinispan-15-tracing -f infinispan.yaml infinispan openshift/infinispan-infinispan --version 0.3.2
+helm install -n infinispan-15-tracing -f infinispan.yaml infinispan openshift/infinispan
 ```
 
 ``` shell

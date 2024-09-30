@@ -1,6 +1,6 @@
 #Build configuration
 images:
-  server: quay.io/infinispan/server:15.0.0.Final
+  server: quay.io/infinispan-test/server:main
   initContainer: registry.access.redhat.com/ubi8-micro
 #Deployment configuration
 deploy:
@@ -15,6 +15,7 @@ deploy:
     type: LoadBalancer
   infinispan:
     cacheContainer:
+      statistics: true
       tracing:
         collector-endpoint: "http://jaeger-collector.infinispan-15-tracing.svc.cluster.local:4318"
         security: true
